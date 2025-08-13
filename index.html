@@ -74,6 +74,36 @@
       border: 1px solid rgba(255,255,255,0.05);
     }
     
+    /* Publication link styling */
+    .pub-link {
+      margin-left: 8px;
+      font-size: 13px;
+      color: #10b981; /* Green color that stands out against dark background */
+      text-decoration: none;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.1);
+      transition: all 0.2s ease;
+    }
+    
+    .pub-link:hover {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.5);
+      text-decoration: none;
+    }
+    
+    .pub-link:visited {
+      color: #a78bfa; /* Light purple for visited links */
+      border-color: rgba(167, 139, 250, 0.3);
+      background: rgba(167, 139, 250, 0.1);
+    }
+    
+    .pub-link:visited:hover {
+      background: rgba(167, 139, 250, 0.2);
+      border-color: rgba(167, 139, 250, 0.5);
+    }
+    
     @media (max-width:880px){
       main{grid-template-columns:1fr;}
       .avatar{width:74px;height:74px;font-size:22px}
@@ -145,17 +175,17 @@
           <div class="pub">
             <strong>Augmenting inertial motion capture with SLAM using EKF and SRUKF data fusion algorithms</strong>. Measurement, 2023. (M. M. Azarbeik et al.)
             <a href="https://www.sciencedirect.com/science/article/pii/S026322412301254X" target="_blank" class="pub-link">[DOI]</a>
-            <a href="/pdfs/Augmenting2023.pdf" target="_blank" class="pub-link">[PDF]</a>
+            <a href="pdfs/Augmenting2023.pdf" target="_blank" class="pub-link">[PDF]</a>
           </div>
           <div class="pub">
             <strong>Optimal timing for renal replacement therapy in critically ill patients using reinforcement learning algorithms</strong>. Journal of Critical Care, 2025. (L. Kapral, M. M. Azarbeik et al.)
             <a href="https://www.sciencedirect.com/science/article/pii/S0883944124004519" target="_blank" class="pub-link">[DOI]</a>
-            <a href="/pdfs/Optimal2025.pdf" target="_blank" class="pub-link">[PDF]</a>
+            <a href="pdfs/Optimal2025.pdf" target="_blank" class="pub-link">[PDF]</a>
           </div>
           <div class="pub">
             <strong>TU Wien at SemEval-2024 task 6: Unifying model-agnostic and model-aware techniques for hallucination detection</strong>. SemEval-2024 proceedings, 2024. (V. Arzt, M. M. Azarbeik et al.)
             <a href="https://aclanthology.org/2024.semeval-1.173/" target="_blank" class="pub-link">[DOI]</a>
-            <a href="/pdfs/TU2024.pdf" target="_blank" class="pub-link">[PDF]</a>
+            <a href="pdfs/TU2024.pdf" target="_blank" class="pub-link">[PDF]</a>
           </div>
           <div class="pub">
             <strong>An overview of the design experience and group analysis of a spinning ride from the perspective of engineering education</strong>. Iranian Journal of Engineering Education, 2022. (A. Meghdari et al.)
