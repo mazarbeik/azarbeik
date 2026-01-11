@@ -1,686 +1,573 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mohammad Mahdi Azarbeik — AI Researcher</title>
   <meta name="description" content="Mohammad Mahdi Azarbeik — AI researcher. Reinforcement Learning, Decision Support in Intensive Care, Robotics, LLMs." />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --bg:#0a0e1a;
-      --card:#131824;
-      --muted:#8b95a8;
-      --accent:#6366f1;
-      --accent-2:#06b6d4;
-      --accent-3:#10b981;
-      --text:#e8f0f9;
-      --glow:rgba(99,102,241,0.4);
+    :root {
+      /* Palette: Deep Space */
+      --bg: #030712;
+      --card-bg: rgba(17, 24, 39, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      
+      /* Text */
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      /* Accents */
+      --primary: #6366f1;   /* Indigo */
+      --secondary: #06b6d4; /* Cyan */
+      --success: #10b981;   /* Emerald */
+      
+      --gradient-main: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     }
+
+    /* --- Base Reset --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    html,body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
-    
-    body{
-      background:#050810;
-      min-height:100vh;
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      position:relative;
-      overflow-x:hidden;
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
-    
-    /* Enhanced animated gradient background */
-    body::before {
-      content: '';
+
+    /* --- Background Ambience --- */
+    .ambient-glow {
       position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: -1;
       background: 
-        radial-gradient(ellipse at 20% 20%, rgba(99,102,241,0.18) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.1) 0%, transparent 50%);
-      animation: gradientRotate 30s ease infinite;
-      z-index: 0;
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.08), transparent 25%);
       pointer-events: none;
     }
     
-    @keyframes gradientRotate {
-      0%, 100% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.1); }
-    }
-    
-    /* Floating particles */
-    .particle {
+    /* Noise texture overlay for that "technical" feel */
+    .noise-overlay {
       position: fixed;
-      width: 3px;
-      height: 3px;
-      background: rgba(99,102,241,0.4);
-      border-radius: 50%;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
       pointer-events: none;
-      z-index: 0;
-      animation: float 20s infinite ease-in-out;
     }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+
+    /* --- Layout --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: grid;
+      grid-template-columns: 320px 1fr; /* Sidebar | Content */
+      gap: 48px;
+      align-items: start;
     }
-    
-    .container{max-width:1100px;margin:0 auto;padding:60px 24px 24px;position:relative;z-index:1}
-    
-    header{
-      display:flex;
-      align-items:center;
-      gap:32px;
-      margin-bottom:56px;
-      animation: fadeSlideDown 1s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* --- Sticky Sidebar --- */
+    .profile-sidebar {
+      position: sticky;
+      top: 40px;
+      animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
-    @keyframes fadeSlideDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
     }
-    
-    .avatar{
-      width:140px;
-      height:140px;
-      border-radius:24px;
-      background:linear-gradient(135deg, #6366f1 0%, #8b5cf6 35%, #06b6d4 70%, #10b981 100%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      font-size:36px;
-      box-shadow:0 10px 40px rgba(99,102,241,0.35), 0 0 80px rgba(99,102,241,0.2);
-      position:relative;
-      overflow:hidden;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-      cursor: pointer;
+
+    .profile-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
-    
-    .avatar:hover {
-      transform: translateY(-6px) scale(1.03) rotate(-2deg);
-      box-shadow:0 16px 50px rgba(99,102,241,0.5), 0 0 100px rgba(99,102,241,0.3);
-    }
-    
-    .avatar::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
-      animation: shimmer 3s infinite;
-    }
-    
-    @keyframes shimmer {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-    }
-    
-    .avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}
-    .avatar .initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:36px;color:var(--text)}
-    .avatar img.hidden{display:none}
-    
-    h1{
-      margin:0;
-      font-size:42px;
-      font-weight:800;
-      background:linear-gradient(135deg, #fff 0%, #e8f0f9 40%, #a5b4fc 100%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-      letter-spacing:-0.03em;
-      line-height: 1.1;
-    }
-    
-    .sub{
-      color:var(--accent-2);
-      margin-top:10px;
-      font-size:17px;
-      font-weight:600;
-      letter-spacing:0.01em;
-    }
-    
-    .meta{
-      font-size:14px;
-      color:var(--muted);
-      margin-top:8px;
-      line-height:1.6;
-    }
-    
-    main{
-      display:grid;
-      grid-template-columns:1fr 360px;
-      gap:28px;
-      animation: fadeIn 1s ease-out 0.3s both;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .card{
-      background:rgba(19,24,36,0.7);
-      border:1px solid rgba(255,255,255,0.1);
-      padding:32px;
-      border-radius:20px;
-      backdrop-filter:blur(24px);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-      position:relative;
-      overflow:hidden;
-    }
-    
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    
-    .card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(6,182,212,0.2));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 80px rgba(99,102,241,0.15);
-      border-color: rgba(99,102,241,0.4);
-    }
-    
-    .card:hover::before,
-    .card:hover::after {
-      opacity: 1;
-    }
-    
-    section h2{
-      margin:0 0 24px 0;
-      font-size:24px;
-      font-weight:700;
-      color:var(--text);
-      position:relative;
-      padding-bottom:14px;
-      display: inline-block;
-    }
-    
-    section h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      border-radius: 2px;
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .card:hover h2::after {
-      width: 100%;
-    }
-    
-    h3 {
-      color: var(--accent-2);
-      font-size: 17px;
-      font-weight: 600;
-      margin-top: 24px;
-      margin-bottom: 12px;
-    }
-    
-    ul{padding-left:20px;margin:12px 0;line-height:1.9}
-    ul li{margin-bottom:14px;transition:transform 0.2s ease}
-    ul li:hover{transform:translateX(4px)}
-    
-    .pub{
-      margin-bottom:24px;
-      padding:20px;
-      background:rgba(99,102,241,0.04);
-      border-left:4px solid var(--accent);
-      border-radius:12px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .avatar-wrapper {
       position: relative;
-      overflow: hidden;
-    }
-    
-    .pub::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(180deg, var(--accent), var(--accent-2));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .pub:hover {
-      background:rgba(99,102,241,0.1);
-      transform: translateX(6px);
-      box-shadow: -4px 0 20px rgba(99,102,241,0.2);
-    }
-    
-    .pub:hover::before {
-      opacity: 1;
-    }
-    
-    .pub strong{
-      color:var(--text);
-      display:block;
-      margin-bottom:10px;
-      line-height:1.6;
-      font-size: 15px;
-    }
-    
-    .pub-meta {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-    
-    .pub-link {
-      display:inline-block;
-      margin:8px 8px 0 0;
-      font-size:13px;
-      color:var(--accent-3);
-      text-decoration:none;
-      padding:6px 14px;
-      border-radius:8px;
-      border:1px solid rgba(16,185,129,0.3);
-      background:rgba(16,185,129,0.08);
-      transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      font-weight:500;
-    }
-    
-    .pub-link:hover {
-      background:rgba(16,185,129,0.2);
-      border-color:rgba(16,185,129,0.7);
-      transform:translateY(-2px);
-      box-shadow:0 6px 16px rgba(16,185,129,0.25);
-    }
-    
-    .pub-link:visited {
-      color:#a78bfa;
-      border-color:rgba(167,139,250,0.3);
-      background:rgba(167,139,250,0.08);
-    }
-    
-    .pub-link:visited:hover {
-      background:rgba(167,139,250,0.2);
-      border-color:rgba(167,139,250,0.7);
-    }
-    
-    .skill-badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
-    
-    .badge{
-      background:linear-gradient(135deg, rgba(99,102,241,0.15), rgba(6,182,212,0.12));
-      padding:10px 18px;
-      border-radius:24px;
-      font-size:13px;
-      color:var(--text);
-      border:1px solid rgba(99,102,241,0.25);
-      font-weight:500;
-      transition:all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor:default;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .badge::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .badge:hover {
-      background:linear-gradient(135deg, rgba(99,102,241,0.3), rgba(6,182,212,0.25));
-      border-color:rgba(99,102,241,0.5);
-      transform:translateY(-3px) scale(1.05);
-      box-shadow:0 6px 20px rgba(99,102,241,0.35);
-    }
-    
-    .badge:hover::before {
-      opacity: 1;
-    }
-    
-    .contact-icons{
-      display:flex;
-      gap:14px;
-      margin-top:20px;
-    }
-    
-    .contact-icon {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:52px;
-      height:52px;
-      border-radius:14px;
-      background:rgba(99,102,241,0.12);
-      border:1px solid rgba(99,102,241,0.25);
-      color:var(--accent-2);
-      transition:all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .contact-icon::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .contact-icon:hover {
-      background:rgba(99,102,241,0.25);
-      border-color:var(--accent);
-      transform:translateY(-6px) scale(1.1) rotate(5deg);
-      box-shadow:0 10px 28px rgba(99,102,241,0.4);
-    }
-    
-    .contact-icon:hover::before {
-      opacity: 1;
-    }
-    
-    .contact-icon svg {
-      width:24px;
-      height:24px;
-      position: relative;
-      z-index: 1;
-    }
-    
-    a.link{
-      color:var(--accent-2);
-      text-decoration:none;
-      transition:all 0.2s ease;
-      font-weight:500;
-      position: relative;
-    }
-    
-    a.link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--accent);
-      transition: width 0.3s ease;
-    }
-    
-    a.link:hover{
-      color:var(--accent);
-    }
-    
-    a.link:hover::after {
-      width: 100%;
-    }
-    
-    /* Staggered animations */
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.2s; }
-    .card:nth-child(3) { animation-delay: 0.3s; }
-    .card:nth-child(4) { animation-delay: 0.4s; }
-    
-    /* Scroll to top button */
-    .scroll-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
       border-radius: 50%;
+      padding: 4px; /* Space for gradient border */
+      background: linear-gradient(135deg, rgba(99,102,241,0.5), rgba(6,182,212,0.5));
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #1e293b;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+      position: relative;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-initials {
+      font-size: 32px;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .role-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--secondary);
+      margin-bottom: 16px;
+      background: rgba(6, 182, 212, 0.1);
+      padding: 4px 12px;
+      border-radius: 100px;
+      display: inline-block;
+    }
+
+    .bio-short {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Contact Links */
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      border-top: 1px solid var(--card-border);
+      padding-top: 24px;
+    }
+
+    .icon-link {
+      color: var(--text-muted);
+      transition: all 0.2s;
+      padding: 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .icon-link:hover {
+      color: var(--text-main);
+      background: rgba(99, 102, 241, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* --- Main Content Area --- */
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    section {
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Stagger Animations */
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.2s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h2::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--card-border);
+    }
+
+    /* --- Cards --- */
+    .content-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .content-card:hover {
+      border-color: rgba(99,102,241,0.3);
+    }
+
+    /* --- Timeline (Education/Experience) --- */
+    .timeline {
+      padding-left: 20px;
+      border-left: 2px solid rgba(255,255,255,0.05);
+      margin: 10px 0 10px 10px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .timeline-item:last-child { margin-bottom: 0; }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -27px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 16px;
+    }
+
+    .timeline-subtitle {
+      color: var(--primary);
+      font-size: 14px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* --- Publication Cards --- */
+    .pub-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .pub-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--card-border);
+      padding: 20px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .pub-card:hover {
+      background: rgba(255,255,255,0.04);
+      transform: translateX(4px);
+      border-left: 3px solid var(--success);
+    }
+
+    .pub-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .pub-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .pub-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-xs {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(99,102,241,0.1);
+      color: var(--primary);
+      transition: background 0.2s;
+    }
+
+    .btn-xs:hover {
+      background: rgba(99,102,241,0.25);
     }
     
-    .scroll-top.visible {
-      opacity: 1;
-      pointer-events: all;
+    .btn-xs.visual {
+      color: var(--secondary);
+      background: rgba(6,182,212,0.1);
     }
-    
-    .scroll-top:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(99,102,241,0.6);
+    .btn-xs.visual:hover { background: rgba(6,182,212,0.25); }
+
+    /* --- Badge Grid --- */
+    .skill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    
-    .scroll-top svg {
-      width: 24px;
-      height: 24px;
-      color: white;
+
+    .skill-badge {
+      font-size: 13px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      color: var(--text-muted);
+      transition: all 0.2s;
     }
-    
-    @media (max-width:900px){
-      main{grid-template-columns:1fr}
-      .avatar{width:100px;height:100px;font-size:28px}
-      h1{font-size:32px}
-      .container{padding:40px 20px 20px}
-      header{flex-direction:column;align-items:flex-start;gap:24px}
-      .card{padding:24px}
+
+    .skill-badge:hover {
+      color: var(--text-main);
+      border-color: var(--primary);
+      background: rgba(99,102,241,0.1);
+    }
+
+    /* --- Mobile Responsive --- */
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding-top: 20px;
+      }
+      
+      .profile-sidebar {
+        position: relative;
+        top: 0;
+        animation: fadeUp 0.8s ease;
+      }
+
+      .timeline {
+        border-left: none;
+        padding-left: 0;
+        margin-left: 0;
+      }
+      
+      .timeline-item {
+        padding-left: 20px;
+        border-left: 2px solid rgba(255,255,255,0.1);
+      }
+      
+      .timeline-item::before {
+        left: -7px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Floating particles -->
-  <div id="particles"></div>
-  
+
+  <div class="ambient-glow"></div>
+  <div class="noise-overlay"></div>
+
   <div class="container">
-    <header>
-      <div class="avatar">
-        <img id="profile-photo" src="imgs/profile.jpg" alt="Photo of Mohammad Mahdi Azarbeik" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none'">
-        <div class="initials">MA</div>
-      </div>
-      <div>
+    
+    <aside class="profile-sidebar">
+      <div class="profile-card">
+        <div class="avatar-wrapper">
+          <div class="avatar">
+            <img src="imgs/profile.jpg" alt="Mohammad Mahdi Azarbeik" onload="this.style.display='block'" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="avatar-initials" style="display:none">MA</div>
+          </div>
+        </div>
+        
         <h1>Mohammad Mahdi Azarbeik</h1>
-        <div class="sub">AI Researcher: Reinforcement Learning & Decision Support in Intensive Care</div>
-        <div class="meta">Ph.D. Candidate in Computer Science (Informatics) @ Vienna University of Technology (TU Wien)</div>
-        <div class="meta">Researcher @ Ludwig Boltzmann Institute Digital Health and Patient Safety (LBG DHPS) & Medical University of Vienna (MUW)</div>
+        <div class="role-title">AI Researcher</div>
+        
+        <p class="bio-short">
+          Ph.D. Candidate @ TU Wien.<br>
+          Focusing on RL, Clinical Decision Support & Robotics.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:mm.azarbeik@gmail.com" class="icon-link" aria-label="Email">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/mohammad-mahdi-azarbeik-757597201/" target="_blank" class="icon-link" aria-label="LinkedIn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://scholar.google.com/citations?authuser=1&user=tVbfK3AAAAAJ" target="_blank" class="icon-link" aria-label="Google Scholar">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5 12 0z"/></svg>
+          </a>
+        </div>
+        
+        <div style="margin-top: 24px; text-align: left;">
+            <div style="font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px;">Tech Stack</div>
+            <div class="skill-grid">
+                <span class="skill-badge">Python</span>
+                <span class="skill-badge">RL</span>
+                <span class="skill-badge">ROS</span>
+                <span class="skill-badge">PyTorch</span>
+                <span class="skill-badge">Linux</span>
+                <span class="skill-badge">SQL</span>
+            </div>
+        </div>
+
       </div>
-    </header>
+    </aside>
 
     <main>
-      <div>
-        <section id="about" class="card">
-          <h2>About</h2>
-          <p style="line-height:1.8;margin-bottom:16px">I am a researcher working on machine learning with a focus on reinforcement learning, decision support in intensive care, and large language models. I hold an M.Sc. in Mechanical Engineering and currently pursue a Ph.D. in Computer Science (Informatics) at Vienna University of Technology (TU Wien).</p>
-          
-          <h3>Education</h3>
-          <ul>
-            <li><strong>Ph.D., Computer Science (Informatics)</strong><br>
-                Vienna University of Technology (TU Wien)<br>
-                2023 – present</li>
-            <li><strong>M.Sc., Mechanical Engineering</strong><br>
-                Sharif University of Technology<br>
-                2020 – 2023</li>
-            <li><strong>B.Sc., Mechanical Engineering</strong><br>
-                K. N. Toosi University of Technology<br>
-                2016 – 2020</li>
-          </ul>
-
-          <h3>Research interests</h3>
-          <div class="skill-badges">
-            <span class="badge">Reinforcement Learning</span>
-            <span class="badge">Clinical Decision Support</span>
-            <span class="badge">Deep Learning</span>
-            <span class="badge">LLMs</span>
-            <span class="badge">Robotics</span>
-            <span class="badge">State Estimation</span>
-          </div>
-        </section>
-
-        <section id="research" class="card" style="margin-top:28px">
-          <h2>Selected experience & positions</h2>
-          <ul>
-            <li><strong>Researcher</strong> @ Medical University of Vienna (MUW)<br>
-              Jul 2025 – present</li>
-            <li><strong>Researcher</strong> @ Ludwig Boltzmann Institute Digital Health and Patient Safety (LBG DHPS)<br>
-              Feb 2025 – present</li>
-            <li><strong>University Assistant</strong> @ Vienna University of Technology (TU Wien)<br>
-              Oct 2023 – Jan 2025</li>
-          </ul>
-
-          <h3>Teaching</h3>
-          <ul>
-            <li>Reinforcement Learning @ TU Wien</li>
-            <li>Generative AI @ TU Wien</li>
-            <li>Data-oriented Programming Paradigms @ TU Wien</li>
-            <li>Numerical Analysis @ K. N. Toosi University of Technology</li>
-          </ul>
-        </section>
-
-        <section id="publications" class="card" style="margin-top:28px">
-          <h2>Selected publications</h2>
-          <div class="pub">
-            <strong>Augmenting inertial motion capture with SLAM using EKF and SRUKF data fusion algorithms</strong>
-            <div class="pub-meta">Measurement, 2023. (M. M. Azarbeik et al.)</div>
-            <div>
-              <a href="https://www.sciencedirect.com/science/article/pii/S026322412301254X" target="_blank" class="pub-link">DOI</a>
-              <a href="./pdfs/Augmenting2023.pdf" target="_blank" class="pub-link">PDF</a>
-              <a href="./pdfs/Graphical_Abstract.mp4" target="_blank" class="pub-link">Visual</a>
-            </div>
-          </div>
-          <div class="pub">
-            <strong>Optimal timing for renal replacement therapy in critically ill patients using reinforcement learning algorithms</strong>
-            <div class="pub-meta">Journal of Critical Care, 2025. (L. Kapral, M. M. Azarbeik et al.)</div>
-            <div>
-              <a href="https://www.sciencedirect.com/science/article/pii/S0883944124004519" target="_blank" class="pub-link">DOI</a>
-              <a href="pdfs/Optimal2025.pdf" target="_blank" class="pub-link">PDF</a>
-            </div>
-          </div>
-          <div class="pub">
-            <strong>TU Wien at SemEval-2024 task 6: Unifying model-agnostic and model-aware techniques for hallucination detection</strong>
-            <div class="pub-meta">SemEval-2024 proceedings, 2024. (V. Arzt, M. M. Azarbeik et al.)</div>
-            <div>
-              <a href="https://aclanthology.org/2024.semeval-1.173/" target="_blank" class="pub-link">DOI</a>
-              <a href="pdfs/TU2024.pdf" target="_blank" class="pub-link">PDF</a>
-            </div>
-          </div>
-          <div class="pub">
-            <strong>An overview of the design experience and group analysis of a spinning ride from the perspective of engineering education</strong>
-            <div class="pub-meta">Iranian Journal of Engineering Education, 2022. (A. Meghdari et al.)</div>
-            <div>
-              <a href="https://ijee.ias.ac.ir/article_149051.html?lang=en" target="_blank" class="pub-link">DOI</a>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <aside>
-        <div class="card">
-          <h2>Contact & links</h2>
-          <div class="contact-icons">
-            <a href="mailto:mm.azarbeik@gmail.com" class="contact-icon" title="Email">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-              </svg>
-            </a>
-            <a href="https://www.linkedin.com/in/mohammad-mahdi-azarbeik-757597201/" class="contact-icon" title="LinkedIn" target="_blank">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-              </svg>
-            </a>
-            <a href="https://scholar.google.com/citations?authuser=1&user=tVbfK3AAAAAJ" class="contact-icon" title="Google Scholar" target="_blank">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5 12 0z"/>
-              </svg>
-            </a>
-          </div>
-
-          <h3>Skills</h3>
-          <div class="skill-badges">
-            <span class="badge">Python</span>
-            <span class="badge">MATLAB</span>
-            <span class="badge">SQL / PostgreSQL</span>
-            <span class="badge">Linux (Ubuntu)</span>
-            <span class="badge">ROS</span>
-            <span class="badge">GCP / BigQuery</span>
-          </div>
-
-          <h3>Quick links</h3>
-          <ul style="line-height:2">
-            <li><a class="link" href="#publications">Publications</a></li>
-            <li><a class="link" href="#research">Experience</a></li>
-            <li><a class="link" href="#about">About</a></li>
-          </ul>
+      
+      <section>
+        <div class="content-card">
+          <h2>About Me</h2>
+          <p style="color: var(--text-muted);">
+            I am a researcher working at the intersection of machine learning and healthcare. My primary focus is on <strong>Reinforcement Learning</strong> and <strong>Large Language Models</strong> to improve decision support systems in intensive care units. I hold an M.Sc. in Mechanical Engineering and currently pursue a Ph.D. in Computer Science (Informatics) at Vienna University of Technology (TU Wien).
+          </p>
         </div>
-      </aside>
+      </section>
+
+      <section>
+        <h2>Experience & Education</h2>
+        <div class="content-card">
+            <div class="timeline">
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">Researcher</div>
+                    <div class="timeline-subtitle">Medical University of Vienna (MUW)</div>
+                    <div class="timeline-date">Jul 2025 – Present</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-title">Ph.D., Computer Science</div>
+                    <div class="timeline-subtitle">TU Wien</div>
+                    <div class="timeline-date">2023 – Present</div>
+                    <p style="font-size:13px; margin-top:8px; color:var(--text-muted)">Teaching: Reinforcement Learning, Generative AI</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-title">University Assistant</div>
+                    <div class="timeline-subtitle">TU Wien</div>
+                    <div class="timeline-date">Oct 2023 – Jan 2025</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-title">M.Sc., Mechanical Engineering</div>
+                    <div class="timeline-subtitle">Sharif University of Technology</div>
+                    <div class="timeline-date">2020 – 2023</div>
+                </div>
+
+            </div>
+        </div>
+      </section>
+
+      <section id="publications">
+        <h2>Selected Publications</h2>
+        <div class="pub-grid">
+            
+            <div class="pub-card">
+                <div class="pub-title">Optimal timing for renal replacement therapy in critically ill patients using reinforcement learning algorithms</div>
+                <div class="pub-meta">Journal of Critical Care, 2025 • L. Kapral, M. M. Azarbeik et al.</div>
+                <div class="pub-links">
+                    <a href="pdfs/Optimal2025.pdf" class="btn-xs">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+                        PDF
+                    </a>
+                    <a href="https://www.sciencedirect.com/science/article/pii/S0883944124004519" target="_blank" class="btn-xs">DOI</a>
+                </div>
+            </div>
+
+            <div class="pub-card">
+                <div class="pub-title">TU Wien at SemEval-2024 task 6: Unifying model-agnostic and model-aware techniques for hallucination detection</div>
+                <div class="pub-meta">SemEval-2024 proceedings • V. Arzt, M. M. Azarbeik et al.</div>
+                <div class="pub-links">
+                    <a href="pdfs/TU2024.pdf" class="btn-xs">PDF</a>
+                    <a href="https://aclanthology.org/2024.semeval-1.173/" target="_blank" class="btn-xs">DOI</a>
+                </div>
+            </div>
+
+            <div class="pub-card">
+                <div class="pub-title">Augmenting inertial motion capture with SLAM using EKF and SRUKF data fusion algorithms</div>
+                <div class="pub-meta">Measurement, 2023 • M. M. Azarbeik et al.</div>
+                <div class="pub-links">
+                    <a href="./pdfs/Augmenting2023.pdf" class="btn-xs">PDF</a>
+                    <a href="https://www.sciencedirect.com/science/article/pii/S026322412301254X" target="_blank" class="btn-xs">DOI</a>
+                    <a href="./pdfs/Graphical_Abstract.mp4" class="btn-xs visual">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Visual
+                    </a>
+                </div>
+            </div>
+
+        </div>
+      </section>
+
     </main>
   </div>
 
-  <!-- Scroll to top button -->
-  <div class="scroll-top" id="scrollTop">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="18 15 12 9 6 15"></polyline>
-    </svg>
-  </div>
-
   <script>
-    // Create floating particles
-    const particleContainer = document.getElementById('particles');
-    for (let i = 0; i < 20; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 20 + 's';
-      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-      particleContainer.appendChild(particle);
-    }
-
-    // Scroll to top functionality
-    const scrollTopBtn = document.getElementById('scrollTop');
-    
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        scrollTopBtn.classList.add('visible');
-      } else {
-        scrollTopBtn.classList.remove('visible');
-      }
-    });
-    
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Smooth scroll for anchor links
+    // Smooth scroll for anchor links (if any)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Optional: Add a simple interaction effect to cards
+    const cards = document.querySelectorAll('.content-card, .pub-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            // Simple spotlight effect using CSS variables if you wanted to expand this
+            // card.style.setProperty('--mouse-x', `${x}px`);
+            // card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+  </script>
+</body>
+</html>
