@@ -7,907 +7,876 @@
   <meta name="description" content="Mohammad Mahdi Azarbeik — AI researcher specializing in Reinforcement Learning, Clinical Decision Support, and Large Language Models." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
   <style>
+    /* ─── TOKENS ─── */
     :root {
-      --bg: #0a0e1a;
-      --card: #131824;
-      --muted: #a0aec0;
-      --accent: #8b5cf6;
-      --accent-2: #22d3ee;
-      --accent-3: #34d399;
-      --text: #f0f4f8;
-      --text-bright: #ffffff;
-      --glow: rgba(139,92,246,0.4);
+      --bg:         #f0ede5;
+      --bg-card:    #e9e5db;
+      --bg-dark:    #111110;
+      --ink:        #111110;
+      --ink-mid:    #4a4843;
+      --ink-light:  #918e88;
+      --accent:     #1b6b5a;
+      --accent-2:   #c2614a;
+      --rule:       rgba(17,17,16,.14);
+      --rule-strong:rgba(17,17,16,.25);
+      --serif:      'Crimson Pro', Georgia, serif;
+      --sans:       'Syne', system-ui, sans-serif;
     }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-    
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #050810;
-      min-height: 100vh;
-      color: var(--text);
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 300;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
-      position: relative;
-      overflow-x: hidden;
+      min-height: 100vh;
     }
-    
-    /* Enhanced animated gradient background with more movement */
+
+    /* ─── GRID TEXTURE OVERLAY ─── */
     body::before {
       content: '';
       position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: 
-        radial-gradient(ellipse at 20% 20%, rgba(139,92,246,0.25) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(34,211,238,0.2) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(167,139,250,0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 40% 60%, rgba(52,211,153,0.12) 0%, transparent 50%);
-      animation: gradientRotate 25s ease infinite;
-      z-index: 0;
-      pointer-events: none;
-    }
-    
-    @keyframes gradientRotate {
-      0%, 100% { transform: rotate(0deg) scale(1); }
-      33% { transform: rotate(120deg) scale(1.15); }
-      66% { transform: rotate(240deg) scale(1.05); }
-    }
-    
-    /* Floating particles with varied sizes */
-    .particle {
-      position: fixed;
-      background: rgba(139,92,246,0.6);
-      border-radius: 50%;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--rule) 1px, transparent 1px),
+        linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+      background-size: 64px 64px;
       pointer-events: none;
       z-index: 0;
-      filter: blur(1px);
+      opacity: 0.5;
     }
-    
-    .container { 
-      max-width: 1100px; 
-      margin: 0 auto; 
-      padding: 60px 24px 24px; 
-      position: relative; 
-      z-index: 1;
-    }
-    
-    header {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      margin-bottom: 56px;
-      animation: fadeSlideDown 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    @keyframes fadeSlideDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Enhanced avatar with pulsing glow */
-    .avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 35%, #22d3ee 70%, #34d399 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 36px;
-      box-shadow: 
-        0 10px 40px rgba(139,92,246,0.4), 
-        0 0 80px rgba(139,92,246,0.3),
-        0 0 120px rgba(139,92,246,0.15);
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-      animation: avatarPulse 3s ease-in-out infinite;
-    }
-    
-    @keyframes avatarPulse {
-      0%, 100% { box-shadow: 0 10px 40px rgba(139,92,246,0.4), 0 0 80px rgba(139,92,246,0.3), 0 0 120px rgba(139,92,246,0.15); }
-      50% { box-shadow: 0 10px 50px rgba(139,92,246,0.6), 0 0 100px rgba(139,92,246,0.4), 0 0 150px rgba(139,92,246,0.25); }
-    }
-    
-    .avatar:hover {
-      transform: translateY(-8px) scale(1.05) rotate(-3deg);
-      box-shadow: 
-        0 20px 60px rgba(139,92,246,0.6), 
-        0 0 120px rgba(139,92,246,0.5),
-        0 0 180px rgba(139,92,246,0.3);
-      animation: none;
-    }
-    
-    .avatar::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
-      animation: shimmer 3s infinite;
-    }
-    
-    @keyframes shimmer {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-    }
-    
-    .avatar img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      display: block; 
-      border-radius: 24px;
+
+    /* ─── LAYOUT ─── */
+    .site-wrap {
       position: relative;
       z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
     }
-    
-    .avatar .initials { 
-      position: absolute; 
-      inset: 0; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-weight: 700; 
-      font-size: 36px; 
-      color: var(--text-bright);
-    }
-    
-    /* Enhanced title with animated gradient */
-    h1 {
-      margin: 0;
-      font-size: 42px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 30%, #e0e7ff 60%, #c7d2fe 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      animation: titleShine 4s ease-in-out infinite;
-      background-size: 200% auto;
-    }
-    
-    @keyframes titleShine {
-      0%, 100% { background-position: 0% center; }
-      50% { background-position: 100% center; }
-    }
-    
-    /* Brighter subtitle with better contrast */
-    .sub {
-      color: #e0f2fe;
-      margin-top: 10px;
-      font-size: 17px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      text-shadow: 0 2px 12px rgba(224,242,254,0.3);
-      line-height: 1.5;
-    }
-    
-    .meta {
-      font-size: 14px;
-      color: #cbd5e1;
-      margin-top: 8px;
-      line-height: 1.6;
-    }
-    
-    main {
+
+    /* ─── MASTHEAD ─── */
+    .masthead {
+      padding: 56px 0 40px;
+      border-bottom: 2px solid var(--ink);
       display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 28px;
-      animation: fadeIn 1s ease-out 0.3s both;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 32px;
+      animation: rise .8s cubic-bezier(.16,1,.3,1) both;
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .masthead-left {}
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    
-    /* Enhanced cards with better hover effects */
-    .card {
-      background: rgba(19,24,36,0.75);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 32px;
-      border-radius: 20px;
-      backdrop-filter: blur(32px);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-      position: relative;
+    .eyebrow::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1.5px;
+      background: var(--accent);
+    }
+
+    .name {
+      font-family: var(--sans);
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 800;
+      line-height: .96;
+      letter-spacing: -.03em;
+      color: var(--ink);
+    }
+    .name span {
+      color: var(--accent);
+    }
+
+    .tagline {
+      margin-top: 20px;
+      font-size: 19px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      font-style: italic;
+      max-width: 560px;
+      line-height: 1.55;
+    }
+
+    .affiliations {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .affil-item {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      color: var(--ink-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .affil-item::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 4px;
       overflow: hidden;
-    }
-    
-    /* Animated top border */
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, 
-        transparent, 
-        rgba(139,92,246,0.8), 
-        rgba(34,211,238,0.8), 
-        rgba(52,211,153,0.6),
-        transparent);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      animation: borderFlow 3s linear infinite;
-      background-size: 200% 100%;
-    }
-    
-    @keyframes borderFlow {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
-    
-    /* Corner accent */
-    .card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle at top right, rgba(139,92,246,0.15), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-    }
-    
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 
-        0 20px 60px rgba(0,0,0,0.5), 
-        0 0 80px rgba(139,92,246,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-      border-color: rgba(139,92,246,0.5);
-    }
-    
-    .card:hover::before {
-      opacity: 1;
-    }
-    
-    .card:hover::after {
-      opacity: 1;
-    }
-    
-    section h2 {
-      margin: 0 0 24px 0;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text-bright);
+      flex-shrink: 0;
       position: relative;
-      padding-bottom: 14px;
-      display: inline-block;
+      border: 2px solid var(--ink);
     }
-    
-    /* Animated underline for section headers */
-    section h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
-      border-radius: 2px;
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      background-size: 200% 100%;
-      animation: gradientSlide 3s linear infinite;
-    }
-    
-    @keyframes gradientSlide {
-      0% { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-    
-    .card:hover h2::after {
+    .avatar img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    
-    h3 {
-      color: #e0f2fe;
+    .avatar .initials-block {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      font-family: var(--sans);
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--bg);
+      letter-spacing: -.04em;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--rule-strong);
+      margin-bottom: 56px;
+      animation: rise .8s .15s cubic-bezier(.16,1,.3,1) both;
+    }
+    nav a {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      padding: 16px 20px;
+      border-top: 3px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    nav a:hover {
+      color: var(--ink);
+      border-top-color: var(--accent);
+    }
+    nav a:first-child { padding-left: 0; }
+
+    /* ─── BODY GRID ─── */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      margin-bottom: 64px;
+      animation: rise .7s .2s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    .section-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule-strong);
+    }
+
+    .section-title {
+      font-family: var(--sans);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      margin-bottom: 28px;
+      line-height: 1.1;
+    }
+
+    /* ─── ABOUT TEXT ─── */
+    .about-text {
+      font-size: 19px;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      max-width: 68ch;
+    }
+    .about-text strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* ─── EDUCATION ─── */
+    .edu-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .edu-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+      transition: background .2s;
+    }
+    .edu-item:first-child { border-top: 1px solid var(--rule); }
+    .edu-year {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-light);
+      letter-spacing: .04em;
+      padding-top: 3px;
+    }
+    .edu-degree {
       font-size: 17px;
       font-weight: 600;
-      margin-top: 24px;
-      margin-bottom: 12px;
-      text-shadow: 0 2px 8px rgba(224,242,254,0.2);
+      color: var(--ink);
+      line-height: 1.3;
     }
-    
-    ul { 
-      padding-left: 20px; 
-      margin: 12px 0; 
-      line-height: 1.9;
-    }
-    
-    ul li { 
-      margin-bottom: 14px; 
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
-    
-    ul li:hover { 
-      transform: translateX(6px);
-      color: var(--text-bright);
-    }
-    
-    /* Enhanced publication cards */
-    .pub {
-      margin-bottom: 24px;
-      padding: 20px;
-      background: linear-gradient(135deg, rgba(139,92,246,0.05), rgba(34,211,238,0.03));
-      border-left: 4px solid transparent;
-      border-image: linear-gradient(180deg, var(--accent), var(--accent-2), var(--accent-3)) 1;
-      border-radius: 12px;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .pub::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(180deg, var(--accent), var(--accent-2), var(--accent-3));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .pub:hover {
-      background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(34,211,238,0.08));
-      transform: translateX(8px);
-      box-shadow: -6px 0 24px rgba(139,92,246,0.25);
-    }
-    
-    .pub:hover::before {
-      opacity: 1;
-    }
-    
-    .pub strong {
-      color: var(--text-bright);
-      display: block;
-      margin-bottom: 10px;
-      line-height: 1.6;
+    .edu-inst {
       font-size: 15px;
+      color: var(--ink-mid);
+      margin-top: 3px;
     }
-    
+
+    /* ─── EXPERIENCE / TIMELINE ─── */
+    .exp-list {
+      list-style: none;
+      position: relative;
+      padding-left: 24px;
+    }
+    .exp-list::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: var(--rule-strong);
+    }
+    .exp-item {
+      position: relative;
+      padding: 0 0 32px 24px;
+    }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -19px;
+      top: 8px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: var(--bg);
+    }
+    .exp-item:last-child { padding-bottom: 0; }
+    .exp-period {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .exp-role {
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -.01em;
+    }
+    .exp-org {
+      font-size: 15px;
+      color: var(--ink-mid);
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    /* ─── PUBLICATIONS ─── */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      counter-reset: pub-counter;
+    }
+
+    .pub-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+      counter-increment: pub-counter;
+      transition: all .25s ease;
+    }
+    .pub-item:first-child { border-top: 1px solid var(--rule); }
+    .pub-item:hover { background: rgba(27,107,90,.03); }
+
+    .pub-num {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink-light);
+      letter-spacing: .06em;
+      padding-top: 4px;
+      text-align: right;
+    }
+    .pub-num::before {
+      content: counter(pub-counter, decimal-leading-zero);
+    }
+
+    .pub-body {}
+    .pub-title {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
     .pub-meta {
-      color: #94a3b8;
-      font-size: 13px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: .04em;
+      margin-bottom: 10px;
+    }
+    .pub-authors {
+      font-size: 14px;
+      color: var(--ink-light);
+      font-style: italic;
       margin-bottom: 12px;
     }
-    
-    /* Enhanced link buttons */
+    .pub-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
     .pub-link {
-      display: inline-block;
-      margin: 8px 8px 0 0;
-      font-size: 13px;
-      color: #a7f3d0;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink);
       text-decoration: none;
-      padding: 7px 16px;
-      border-radius: 10px;
-      border: 1.5px solid rgba(52,211,153,0.35);
-      background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(16,185,129,0.08));
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      font-weight: 500;
-      position: relative;
-      overflow: hidden;
+      padding: 6px 12px;
+      border: 1.5px solid var(--ink);
+      transition: all .2s;
     }
-    
-    .pub-link::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
     .pub-link:hover {
-      background: linear-gradient(135deg, rgba(52,211,153,0.2), rgba(16,185,129,0.15));
-      border-color: rgba(52,211,153,0.8);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 8px 20px rgba(52,211,153,0.3);
-      color: #d1fae5;
+      background: var(--ink);
+      color: var(--bg);
     }
-    
-    .pub-link:hover::before {
-      opacity: 1;
+    .pub-link.alt {
+      border-color: var(--ink-light);
+      color: var(--ink-mid);
     }
-    
-    .pub-link:visited {
-      color: #ddd6fe;
-      border-color: rgba(167,139,250,0.35);
-      background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(139,92,246,0.08));
+    .pub-link.alt:hover {
+      background: var(--ink-mid);
+      color: var(--bg);
+      border-color: var(--ink-mid);
     }
-    
-    .pub-link:visited:hover {
-      background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(139,92,246,0.15));
-      border-color: rgba(167,139,250,0.8);
-      color: #ede9fe;
+
+    /* ─── INTERESTS GRID ─── */
+    .interests-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
     }
-    
-    /* Enhanced skill badges */
-    .skill-badges { 
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 12px; 
-      margin-top: 16px;
-    }
-    
-    .badge {
-      background: linear-gradient(135deg, rgba(139,92,246,0.18), rgba(34,211,238,0.15));
-      padding: 10px 18px;
-      border-radius: 24px;
+    .interest-tag {
+      font-family: var(--sans);
       font-size: 13px;
-      color: #f0f4f8;
-      border: 1.5px solid rgba(139,92,246,0.3);
-      font-weight: 500;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--ink);
+      padding: 10px 18px;
+      border: 1.5px solid var(--rule-strong);
+      border-left: none;
+      border-bottom: none;
+      transition: all .2s;
       cursor: default;
-      position: relative;
-      overflow: hidden;
     }
-    
-    .badge::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .badge::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.5s ease, height 0.5s ease;
-    }
-    
-    .badge:hover {
-      background: linear-gradient(135deg, rgba(139,92,246,0.35), rgba(34,211,238,0.3));
-      border-color: rgba(139,92,246,0.6);
-      transform: translateY(-4px) scale(1.08);
-      box-shadow: 0 8px 24px rgba(139,92,246,0.4);
-      color: var(--text-bright);
-    }
-    
-    .badge:hover::before {
-      opacity: 1;
-    }
-    
-    .badge:hover::after {
-      width: 200px;
-      height: 200px;
-    }
-    
-    /* Enhanced contact icons */
-    .contact-icons {
+    .interests-grid:has(.interest-tag:hover) .interest-tag { opacity: .45; }
+    .interest-tag:hover { opacity: 1 !important; background: var(--accent); color: #fff; border-color: var(--accent); }
+    .interests-row {
       display: flex;
-      gap: 14px;
-      margin-top: 20px;
-    }
-    
-    .contact-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(34,211,238,0.12));
-      border: 1.5px solid rgba(139,92,246,0.3);
-      color: #e0f2fe;
-      text-decoration: none;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .contact-icon::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.25), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .contact-icon:hover {
-      background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(34,211,238,0.25));
-      border-color: var(--accent);
-      transform: translateY(-8px) scale(1.15) rotate(8deg);
-      box-shadow: 0 12px 32px rgba(139,92,246,0.5);
-    }
-    
-    .contact-icon:hover::before {
-      opacity: 1;
-    }
-    
-    .contact-icon svg {
-      width: 24px;
-      height: 24px;
-      position: relative;
-      z-index: 1;
-      fill: currentColor;
-      transition: transform 0.3s ease;
-    }
-    
-    .contact-icon:hover svg {
-      transform: scale(1.1);
-    }
-    
-    /* Enhanced links */
-    a.link {
-      color: #e0f2fe;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      font-weight: 500;
-      position: relative;
-      cursor: pointer;
-    }
-    
-    a.link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      transition: width 0.3s ease;
-    }
-    
-    a.link:hover {
-      color: var(--text-bright);
-      text-shadow: 0 0 12px rgba(139,92,246,0.5);
-    }
-    
-    a.link:hover::after {
       width: 100%;
     }
-    
-    /* Enhanced scroll to top button */
-    .scroll-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 54px;
-      height: 54px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      border-radius: 50%;
+    .interests-row:last-child .interest-tag { border-bottom: 1.5px solid var(--rule-strong); }
+    .interests-row .interest-tag:first-child { border-left: 1.5px solid var(--rule-strong); }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      animation: rise .7s .35s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    .sidebar-block {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule-strong);
+    }
+    .sidebar-block:first-child { padding-top: 0; }
+
+    .sidebar-heading {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+    }
+
+    /* Contact links */
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .contact-list li a {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(139,92,246,0.5);
-      border: 2px solid rgba(255,255,255,0.2);
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--bg-card);
+      border: 1px solid transparent;
+      transition: all .2s;
+      letter-spacing: .02em;
     }
-    
-    .scroll-top.visible {
-      opacity: 1;
-      pointer-events: all;
-      animation: scrollPulse 2s ease-in-out infinite;
+    .contact-list li a:hover {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
     }
-    
-    @keyframes scrollPulse {
-      0%, 100% { box-shadow: 0 4px 20px rgba(139,92,246,0.5); }
-      50% { box-shadow: 0 4px 30px rgba(139,92,246,0.7), 0 0 40px rgba(139,92,246,0.4); }
+    .contact-list li a svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: currentColor;
     }
-    
-    .scroll-top:hover {
-      transform: translateY(-6px) scale(1.1);
-      box-shadow: 0 12px 40px rgba(139,92,246,0.7);
-      animation: none;
+
+    /* Skills */
+    .skill-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
     }
-    
-    .scroll-top svg {
-      width: 26px;
-      height: 26px;
-      color: white;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    .skill-item {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 9px 0;
+      color: var(--ink-mid);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color .2s;
     }
-    
-    @media (max-width: 900px) {
-      main { grid-template-columns: 1fr; }
-      .avatar { width: 100px; height: 100px; font-size: 28px; }
-      h1 { font-size: 32px; }
-      .container { padding: 40px 20px 20px; }
-      header { flex-direction: column; align-items: flex-start; gap: 24px; }
-      .card { padding: 24px; }
+    .skill-item:hover { color: var(--ink); }
+    .skill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Teaching pills */
+    .teach-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .teach-list li {
+      font-size: 14px;
+      color: var(--ink-mid);
+      font-style: italic;
+      padding-left: 14px;
+      position: relative;
+    }
+    .teach-list li::before {
+      content: '↳';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-style: normal;
+      font-size: 12px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 2px solid var(--ink);
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      animation: rise .7s .4s cubic-bezier(.16,1,.3,1) both;
+    }
+    footer .footer-name {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    footer .footer-note {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--ink-light);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── UTILITY ─── */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── ACCENT RULE ─── */
+    .rule-accent {
+      height: 3px;
+      background: var(--accent);
+      width: 40px;
+      margin: 18px 0;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 860px) {
+      .body-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .sidebar {
+        position: static;
+        border-top: 2px solid var(--ink);
+        padding-top: 40px;
+      }
+      .masthead {
+        grid-template-columns: 1fr;
+      }
+      .avatar { display: none; }
+      nav a { font-size: 11px; padding: 14px 14px; }
+    }
+
+    @media (max-width: 540px) {
+      .site-wrap { padding: 0 20px 60px; }
+      .pub-item { grid-template-columns: 1fr; gap: 8px; }
+      .pub-num { text-align: left; }
+      .edu-item { grid-template-columns: 1fr; gap: 4px; }
     }
   </style>
 </head>
 <body>
-  <div id="particles"></div>
-  
-  <div class="container">
-    <header>
+  <div class="site-wrap">
+
+    <!-- MASTHEAD -->
+    <header class="masthead">
+      <div class="masthead-left">
+        <div class="eyebrow">AI Researcher · Vienna</div>
+        <h1 class="name">Mohammad<br>Mahdi <span>Azarbeik</span></h1>
+        <p class="tagline">Reinforcement Learning &amp; Clinical Decision Support in Intensive Care</p>
+        <div class="affiliations">
+          <span class="affil-item">Ph.D. Candidate, Computer Science (Informatics) — TU Wien</span>
+          <span class="affil-item">Researcher — Ludwig Boltzmann Institute Digital Health &amp; Patient Safety</span>
+          <span class="affil-item">Researcher — Medical University of Vienna</span>
+        </div>
+      </div>
       <div class="avatar">
         <img src="imgs/profile.jpg" alt="Mohammad Mahdi Azarbeik" onerror="this.style.display='none'">
-        <div class="initials">MA</div>
-      </div>
-      <div>
-        <h1>Mohammad Mahdi Azarbeik</h1>
-        <div class="sub">AI Researcher: Reinforcement Learning & Decision Support in Intensive Care</div>
-        <div class="meta">Ph.D. Candidate in Computer Science (Informatics) @ Vienna University of Technology (TU Wien)</div>
-        <div class="meta">Researcher @ Ludwig Boltzmann Institute Digital Health and Patient Safety (LBG DHPS) & Medical University of Vienna (MUW)</div>
+        <div class="initials-block">MA</div>
       </div>
     </header>
 
-    <main>
-      <div>
-        <section id="about" class="card">
-          <h2>About</h2>
-          <p style="line-height:1.8;margin-bottom:16px">I am a researcher working on machine learning with a focus on reinforcement learning, decision support in intensive care, and large language models. I hold an M.Sc. in Mechanical Engineering and currently pursue a Ph.D. in Computer Science (Informatics) at Vienna University of Technology (TU Wien).</p>
-          
-          <h3>Education</h3>
-          <ul>
-            <li><strong>Ph.D., Computer Science (Informatics)</strong><br>
-                Vienna University of Technology (TU Wien)<br>
-                2023 – present</li>
-            <li><strong>M.Sc., Mechanical Engineering</strong><br>
-                Sharif University of Technology<br>
-                2020 – 2023</li>
-            <li><strong>B.Sc., Mechanical Engineering</strong><br>
-                K. N. Toosi University of Technology<br>
-                2016 – 2020</li>
+    <!-- NAV -->
+    <nav>
+      <a href="#about">About</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- BODY -->
+    <div class="body-grid">
+
+      <!-- MAIN COLUMN -->
+      <main>
+
+        <!-- ABOUT -->
+        <section id="about">
+          <div class="section-label">Profile</div>
+          <p class="about-text">I am a researcher working on <strong>machine learning</strong> with a focus on <strong>reinforcement learning</strong>, decision support in intensive care, and large language models. I hold an M.Sc. in Mechanical Engineering and currently pursue a Ph.D. in Computer Science (Informatics) at Vienna University of Technology (TU Wien).</p>
+
+          <div class="rule-accent"></div>
+
+          <!-- Education -->
+          <div class="section-label" style="margin-top:40px">Education</div>
+          <ul class="edu-list">
+            <li class="edu-item">
+              <div class="edu-year">2023–<br>present</div>
+              <div>
+                <div class="edu-degree">Ph.D., Computer Science (Informatics)</div>
+                <div class="edu-inst">Vienna University of Technology (TU Wien)</div>
+              </div>
+            </li>
+            <li class="edu-item">
+              <div class="edu-year">2020–<br>2023</div>
+              <div>
+                <div class="edu-degree">M.Sc., Mechanical Engineering</div>
+                <div class="edu-inst">Sharif University of Technology</div>
+              </div>
+            </li>
+            <li class="edu-item">
+              <div class="edu-year">2016–<br>2020</div>
+              <div>
+                <div class="edu-degree">B.Sc., Mechanical Engineering</div>
+                <div class="edu-inst">K. N. Toosi University of Technology</div>
+              </div>
+            </li>
           </ul>
 
-          <h3>Research interests</h3>
-          <div class="skill-badges">
-            <span class="badge">Reinforcement Learning</span>
-            <span class="badge">Clinical Decision Support</span>
-            <span class="badge">Deep Learning</span>
-            <span class="badge">LLMs</span>
-            <span class="badge">Robotics</span>
-            <span class="badge">State Estimation</span>
+          <!-- Research Interests -->
+          <div class="section-label" style="margin-top:40px">Research Interests</div>
+          <div class="interests-grid">
+            <div class="interests-row">
+              <div class="interest-tag">Reinforcement Learning</div>
+              <div class="interest-tag">Clinical Decision Support</div>
+              <div class="interest-tag">Deep Learning</div>
+            </div>
+            <div class="interests-row">
+              <div class="interest-tag">Large Language Models</div>
+              <div class="interest-tag">Robotics</div>
+              <div class="interest-tag">State Estimation</div>
+            </div>
           </div>
         </section>
 
-        <section id="research" class="card" style="margin-top:28px">
-          <h2>Selected experience & positions</h2>
-          <ul>
-            <li><strong>Researcher</strong> @ Medical University of Vienna (MUW)<br>
-              Jul 2025 – present</li>
-            <li><strong>Researcher</strong> @ Ludwig Boltzmann Institute Digital Health and Patient Safety (LBG DHPS)<br>
-              Feb 2025 – present</li>
-            <li><strong>University Assistant</strong> @ Vienna University of Technology (TU Wien)<br>
-              Oct 2023 – Jan 2025</li>
-          </ul>
+        <!-- PUBLICATIONS -->
+        <section id="publications">
+          <div class="section-label">Selected Publications</div>
+          <div class="section-title">Research</div>
 
-          <h3>Teaching</h3>
-          <ul>
-            <li>Reinforcement Learning @ TU Wien</li>
-            <li>Generative AI @ TU Wien</li>
-            <li>Data-oriented Programming Paradigms @ TU Wien</li>
-            <li>Numerical Analysis @ K. N. Toosi University of Technology</li>
+          <div class="pub-list">
+
+            <div class="pub-item">
+              <div class="pub-num"></div>
+              <div class="pub-body">
+                <div class="pub-meta">Journal of Critical Care · 2026</div>
+                <div class="pub-title">Learning and evaluating improved reinforcement learning-based policies for sepsis treatment on MIMIC-IV</div>
+                <div class="pub-authors">M. M. Azarbeik et al.</div>
+                <div class="pub-links">
+                  <a href="https://www.sciencedirect.com/science/article/pii/S0883944125003727" target="_blank" rel="noopener" class="pub-link">DOI</a>
+                  <a href="pdfs/Learning2026.pdf" target="_blank" rel="noopener" class="pub-link alt">PDF</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num"></div>
+              <div class="pub-body">
+                <div class="pub-meta">Journal of Critical Care · 2025</div>
+                <div class="pub-title">Optimal timing for renal replacement therapy in critically ill patients using reinforcement learning algorithms</div>
+                <div class="pub-authors">L. Kapral, M. M. Azarbeik et al.</div>
+                <div class="pub-links">
+                  <a href="https://www.sciencedirect.com/science/article/pii/S0883944124004519" target="_blank" rel="noopener" class="pub-link">DOI</a>
+                  <a href="pdfs/Optimal2025.pdf" target="_blank" rel="noopener" class="pub-link alt">PDF</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num"></div>
+              <div class="pub-body">
+                <div class="pub-meta">Measurement · 2023</div>
+                <div class="pub-title">Augmenting inertial motion capture with SLAM using EKF and SRUKF data fusion algorithms</div>
+                <div class="pub-authors">M. M. Azarbeik et al.</div>
+                <div class="pub-links">
+                  <a href="https://www.sciencedirect.com/science/article/pii/S026322412301254X" target="_blank" rel="noopener" class="pub-link">DOI</a>
+                  <a href="pdfs/Augmenting2023.pdf" target="_blank" rel="noopener" class="pub-link alt">PDF</a>
+                  <a href="pdfs/Graphical_Abstract.mp4" target="_blank" rel="noopener" class="pub-link alt">Visual</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num"></div>
+              <div class="pub-body">
+                <div class="pub-meta">SemEval-2024 · 2024</div>
+                <div class="pub-title">TU Wien at SemEval-2024 Task 6: Unifying model-agnostic and model-aware techniques for hallucination detection</div>
+                <div class="pub-authors">V. Arzt, M. M. Azarbeik et al.</div>
+                <div class="pub-links">
+                  <a href="https://aclanthology.org/2024.semeval-1.173/" target="_blank" rel="noopener" class="pub-link">DOI</a>
+                  <a href="pdfs/TU2024.pdf" target="_blank" rel="noopener" class="pub-link alt">PDF</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num"></div>
+              <div class="pub-body">
+                <div class="pub-meta">Iranian Journal of Engineering Education · 2022</div>
+                <div class="pub-title">An overview of the design experience and group analysis of a spinning ride from the perspective of engineering education</div>
+                <div class="pub-authors">A. Meghdari et al.</div>
+                <div class="pub-links">
+                  <a href="https://ijee.ias.ac.ir/article_149051.html?lang=en" target="_blank" rel="noopener" class="pub-link">DOI</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience">
+          <div class="section-label">Career</div>
+          <div class="section-title">Experience</div>
+
+          <ul class="exp-list">
+            <li class="exp-item">
+              <div class="exp-period">Jul 2025 – Present</div>
+              <div class="exp-role">Researcher</div>
+              <div class="exp-org">Medical University of Vienna (MUW)</div>
+            </li>
+            <li class="exp-item">
+              <div class="exp-period">Feb 2025 – Present</div>
+              <div class="exp-role">Researcher</div>
+              <div class="exp-org">Ludwig Boltzmann Institute Digital Health and Patient Safety (LBG DHPS)</div>
+            </li>
+            <li class="exp-item">
+              <div class="exp-period">Oct 2023 – Jan 2025</div>
+              <div class="exp-role">University Assistant</div>
+              <div class="exp-org">Vienna University of Technology (TU Wien)</div>
+            </li>
           </ul>
         </section>
 
-        <section id="publications" class="card" style="margin-top:28px">
-          <h2>Selected publications</h2>
-          <div class="pub">
-            <strong>Augmenting inertial motion capture with SLAM using EKF and SRUKF data fusion algorithms</strong>
-            <div class="pub-meta">Measurement, 2023. (M. M. Azarbeik et al.)</div>
-            <div>
-              <a href="https://www.sciencedirect.com/science/article/pii/S026322412301254X" target="_blank" rel="noopener noreferrer" class="pub-link">DOI</a>
-              <a href="pdfs/Augmenting2023.pdf" target="_blank" rel="noopener noreferrer" class="pub-link">PDF</a>
-              <a href="pdfs/Graphical_Abstract.mp4" target="_blank" rel="noopener noreferrer" class="pub-link">Visual</a>
-            </div>
-          </div>
-          <div class="pub">
-            <strong>Learning and evaluating improved reinforcement learning-based policies for sepsis treatment on MIMIC-IV</strong>
-            <div class="pub-meta">Journal of Critical Care, 2026. (M. M. Azarbeik et al.)</div>
-            <div>
-              <a href="https://www.sciencedirect.com/science/article/pii/S0883944125003727" target="_blank" rel="noopener noreferrer" class="pub-link">DOI</a>
-              <a href="pdfs/Learning2026.pdf" target="_blank" rel="noopener noreferrer" class="pub-link">PDF</a>
-            </div>
-          </div>
-          <div class="pub">
-            <strong>Optimal timing for renal replacement therapy in critically ill patients using reinforcement learning algorithms</strong>
-            <div class="pub-meta">Journal of Critical Care, 2025. (L. Kapral, M. M. Azarbeik et al.)</div>
-            <div>
-              <a href="https://www.sciencedirect.com/science/article/pii/S0883944124004519" target="_blank" rel="noopener noreferrer" class="pub-link">DOI</a>
-              <a href="pdfs/Optimal2025.pdf" target="_blank" rel="noopener noreferrer" class="pub-link">PDF</a>
-            </div>
-          </div>
-          <div class="pub">
-            <strong>TU Wien at SemEval-2024 task 6: Unifying model-agnostic and model-aware techniques for hallucination detection</strong>
-            <div class="pub-meta">SemEval-2024 proceedings, 2024. (V. Arzt, M. M. Azarbeik et al.)</div>
-            <div>
-              <a href="https://aclanthology.org/2024.semeval-1.173/" target="_blank" rel="noopener noreferrer" class="pub-link">DOI</a>
-              <a href="pdfs/TU2024.pdf" target="_blank" rel="noopener noreferrer" class="pub-link">PDF</a>
-            </div>
-          </div>
-          <div class="pub">
-            <strong>An overview of the design experience and group analysis of a spinning ride from the perspective of engineering education</strong>
-            <div class="pub-meta">Iranian Journal of Engineering Education, 2022. (A. Meghdari et al.)</div>
-            <div>
-              <a href="https://ijee.ias.ac.ir/article_149051.html?lang=en" target="_blank" rel="noopener noreferrer" class="pub-link">DOI</a>
-            </div>
-          </div>
-        </section>
-      </div>
+      </main>
 
-      <aside>
-        <div class="card">
-          <h2>Contact & links</h2>
-          <div class="contact-icons">
-            <a href="mailto:mm.azarbeik@gmail.com" class="contact-icon" title="Email" aria-label="Email">
-              <svg viewBox="0 0 24 24">
-                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-              </svg>
-            </a>
-            <a href="https://www.linkedin.com/in/mohammad-mahdi-azarbeik-757597201/" class="contact-icon" title="LinkedIn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-              </svg>
-            </a>
-            <a href="https://scholar.google.com/citations?authuser=1&user=tVbfK3AAAAAJ" class="contact-icon" title="Google Scholar" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5 12 0z"/>
-              </svg>
-            </a>
-          </div>
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="contact">
 
-          <h3>Skills</h3>
-          <div class="skill-badges">
-            <span class="badge">Python</span>
-            <span class="badge">MATLAB</span>
-            <span class="badge">SQL / PostgreSQL</span>
-            <span class="badge">Linux (Ubuntu)</span>
-            <span class="badge">ROS</span>
-            <span class="badge">GCP / BigQuery</span>
-          </div>
-
-          <h3>Quick links</h3>
-          <ul style="line-height:2">
-            <li><a class="link" href="#publications">Publications</a></li>
-            <li><a class="link" href="#research">Experience</a></li>
-            <li><a class="link" href="#about">About</a></li>
+        <div class="sidebar-block">
+          <div class="sidebar-heading">Contact &amp; Links</div>
+          <ul class="contact-list">
+            <li>
+              <a href="mailto:mm.azarbeik@gmail.com">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                mm.azarbeik@gmail.com
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/mohammad-mahdi-azarbeik-757597201/" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a href="https://scholar.google.com/citations?authuser=1&user=tVbfK3AAAAAJ" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5 12 0z"/></svg>
+                Google Scholar
+              </a>
+            </li>
           </ul>
         </div>
+
+        <div class="sidebar-block">
+          <div class="sidebar-heading">Technical Skills</div>
+          <div class="skill-stack">
+            <div class="skill-item">Python <span class="skill-dot"></span></div>
+            <div class="skill-item">MATLAB <span class="skill-dot"></span></div>
+            <div class="skill-item">SQL / PostgreSQL <span class="skill-dot"></span></div>
+            <div class="skill-item">Linux (Ubuntu) <span class="skill-dot"></span></div>
+            <div class="skill-item">ROS <span class="skill-dot"></span></div>
+            <div class="skill-item">GCP / BigQuery <span class="skill-dot"></span></div>
+          </div>
+        </div>
+
+        <div class="sidebar-block">
+          <div class="sidebar-heading">Teaching</div>
+          <ul class="teach-list">
+            <li>Reinforcement Learning — TU Wien</li>
+            <li>Generative AI — TU Wien</li>
+            <li>Data-oriented Programming Paradigms — TU Wien</li>
+            <li>Numerical Analysis — K. N. Toosi University of Technology</li>
+          </ul>
+        </div>
+
       </aside>
-    </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <span class="footer-name">Mohammad Mahdi Azarbeik</span>
+      <span class="footer-note">Vienna · TU Wien · 2025</span>
+    </footer>
+
   </div>
-
-  <div class="scroll-top" id="scrollTop">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="18 15 12 9 6 15"></polyline>
-    </svg>
-  </div>
-
-  <script>
-    // Create floating particles with varied sizes and animations
-    (function createParticles() {
-      const container = document.getElementById('particles');
-      for (let i = 0; i < 40; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        const size = 2 + Math.random() * 4;
-        particle.style.width = size + 'px';
-        particle.style.height = size + 'px';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + 'vh';
-        
-        const colors = [
-          'rgba(139,92,246,0.6)',
-          'rgba(34,211,238,0.5)',
-          'rgba(52,211,153,0.5)',
-          'rgba(167,139,250,0.5)'
-        ];
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        
-        const duration = 15 + Math.random() * 20;
-        particle.style.animation = `floatParticle ${duration}s ease-in-out infinite`;
-        particle.style.animationDelay = Math.random() * -25 + 's';
-        container.appendChild(particle);
-      }
-      
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes floatParticle {
-          0% { 
-            transform: translateY(0) translateX(0) scale(1); 
-            opacity: 0; 
-          }
-          5% { opacity: 0.8; }
-          50% { 
-            transform: translateY(-50vh) translateX(${Math.random() * 100 - 50}px) scale(1.2);
-            opacity: 0.6;
-          }
-          95% { opacity: 0.8; }
-          100% { 
-            transform: translateY(-100vh) translateX(${Math.random() * 120 - 60}px) scale(0.8); 
-            opacity: 0; 
-          }
-        }
-      `;
-      document.head.appendChild(style);
-    })();
-
-    // Scroll to top button functionality
-    const scrollTopBtn = document.getElementById('scrollTop');
-    
-    window.addEventListener('scroll', function() {
-      if (window.pageYOffset > 300) {
-        scrollTopBtn.classList.add('visible');
-      } else {
-        scrollTopBtn.classList.remove('visible');
-      }
-    });
-    
-    scrollTopBtn.addEventListener('click', function() {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
-      });
-    });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-
-    // Add subtle parallax effect to cards on mouse move
-    document.addEventListener('mousemove', function(e) {
-      const cards = document.querySelectorAll('.card');
-      const mouseX = e.clientX / window.innerWidth - 0.5;
-      const mouseY = e.clientY / window.innerHeight - 0.5;
-      
-      cards.forEach(function(card) {
-        const rect = card.getBoundingClientRect();
-        const cardX = (rect.left + rect.width / 2) / window.innerWidth - 0.5;
-        const cardY = (rect.top + rect.height / 2) / window.innerHeight - 0.5;
-        
-        const distX = mouseX - cardX;
-        const distY = mouseY - cardY;
-        
-        card.style.transform = `perspective(1000px) rotateY(${distX * 2}deg) rotateX(${-distY * 2}deg)`;
-      });
-    });
-
-    // Reset card transform on mouse leave
-    document.addEventListener('mouseleave', function() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(function(card) {
-        card.style.transform = '';
-      });
-    });
-  </script>
 </body>
 </html>
