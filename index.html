@@ -13,19 +13,20 @@
 <style>
 /* ── TOKENS ─────────────────────────────────────────────── */
 :root {
-  /* Minimal Neutral Palette */
-  --bg:          #09090b;
-  --bg2:         #121214;
-  --surface:     #18181b;
-  --surface2:    #27272a;
-  --border:      #27272a;
-  --border2:     #3f3f46;
-  --ink:         #fafafa;
-  --ink2:        #a1a1aa;
-  --muted:       #71717a;
-  --accent:      #94a3b8; /* Slate */
-  --accent-d:    #cbd5e1;
-  --accent-bg:   rgba(148, 163, 184, 0.1);
+  /* Cooler, slightly richer minimal palette */
+  --bg:          #0f1115;
+  --bg2:         #16191f;
+  --surface:     #1a1d24;
+  --surface2:    #232730;
+  --border:      #2a2f3a;
+  --border2:     #3b4252;
+  --ink:         #f8f9fa;
+  --ink2:        #aeb6c4;
+  --muted:       #768194;
+  /* Muted sophisticated cyan/teal accent */
+  --accent:      #8fbcbb;
+  --accent-d:    #88c0d0;
+  --accent-bg:   rgba(143, 188, 187, 0.1);
   --serif:       'Playfair Display', Georgia, serif;
   --mono:        'Space Mono', monospace;
   --sans:        'DM Sans', system-ui, sans-serif;
@@ -59,22 +60,22 @@ body {
 .cursor-ring {
   position: fixed;
   width: 34px; height: 34px;
-  border: 1.5px solid rgba(148, 163, 184, 0.4);
+  border: 1.5px solid rgba(143, 188, 187, 0.4);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%, -50%);
   transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s;
 }
-.cursor-ring.hover { width: 52px; height: 52px; border-color: rgba(148, 163, 184, 0.8); }
+.cursor-ring.hover { width: 52px; height: 52px; border-color: rgba(143, 188, 187, 0.8); }
 
 /* ── GRID BG ────────────────────────────────────────────── */
 body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(143, 188, 187, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 188, 187, 0.04) 1px, transparent 1px);
   background-size: 64px 64px;
   pointer-events: none; z-index: 0;
 }
@@ -85,7 +86,7 @@ body::after {
   position: fixed;
   bottom: -200px; right: -200px;
   width: 700px; height: 700px;
-  background: radial-gradient(ellipse, rgba(148, 163, 184, 0.05) 0%, transparent 65%);
+  background: radial-gradient(ellipse, rgba(143, 188, 187, 0.06) 0%, transparent 65%);
   pointer-events: none; z-index: 0;
 }
 
@@ -102,7 +103,7 @@ nav {
   transition: background 0.4s, border-color 0.4s;
 }
 nav.scrolled {
-  background: rgba(9, 9, 11, 0.88);
+  background: rgba(15, 17, 21, 0.92);
   backdrop-filter: blur(24px);
   border-bottom-color: var(--border);
 }
@@ -167,7 +168,7 @@ nav.scrolled {
 .side-dot:hover::after, .side-dot.active::after { opacity: 1; }
 .side-dot.active {
   background: var(--accent);
-  box-shadow: 0 0 10px rgba(148, 163, 184, 0.4);
+  box-shadow: 0 0 10px rgba(143, 188, 187, 0.4);
   width: 8px; height: 8px;
 }
 .side-dot:hover { background: var(--accent); }
@@ -191,7 +192,7 @@ nav.scrolled {
   font-weight: 900;
   font-size: clamp(110px, 18vw, 260px);
   color: transparent;
-  -webkit-text-stroke: 1px rgba(148, 163, 184, 0.05);
+  -webkit-text-stroke: 1px rgba(143, 188, 187, 0.05);
   letter-spacing: -0.04em;
   line-height: 1;
   pointer-events: none;
@@ -277,7 +278,7 @@ h1.hero-name .hi { color: var(--accent); }
   width: 46px; height: 46px;
   display: flex; align-items: center; justify-content: center;
   border: 1px solid var(--border2);
-  border-radius: 2px;
+  border-radius: 4px;
   color: var(--muted);
   text-decoration: none;
   transition: all 0.2s;
@@ -297,17 +298,19 @@ h1.hero-name .hi { color: var(--accent); }
   animation: fadeUp 0.85s var(--ease) 0.5s both;
 }
 .hero-photo img {
-  width: 340px;
-  height: 440px;
+  width: 250px; /* Reduced from 340px */
+  height: 330px; /* Reduced from 440px */
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px; /* Slightly softer corners */
   border: 1px solid var(--border2);
-  filter: grayscale(100%) contrast(1.1);
+  /* Removed grayscale filter */
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.4);
   transition: all 0.5s var(--ease);
 }
 .hero-photo img:hover {
-  filter: grayscale(0%) contrast(1);
   border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px -16px rgba(143, 188, 187, 0.3);
 }
 
 .scroll-hint {
@@ -384,20 +387,32 @@ h1.hero-name .hi { color: var(--accent); }
 
 .interest-list { list-style: none; }
 .interest-item {
-  display: flex; align-items: center; gap: 18px;
-  padding: 15px 0;
+  display: flex; align-items: flex-start; gap: 18px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 15px; font-weight: 500;
-  color: var(--ink2);
-  transition: color 0.2s, padding-left 0.2s;
-  cursor: default;
+  transition: padding-left 0.2s;
 }
 .interest-item:first-child { border-top: 1px solid var(--border); }
-.interest-item:hover { color: var(--accent); padding-left: 6px; }
+.interest-item:hover { padding-left: 6px; }
 .i-num {
   font-family: var(--mono);
   font-size: 10px; color: var(--muted);
   width: 20px; flex-shrink: 0;
+  margin-top: 2px;
+}
+.i-content strong {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.interest-item:hover .i-content strong { color: var(--accent); }
+.i-desc {
+  display: block;
+  font-size: 13.5px;
+  color: var(--ink2);
+  line-height: 1.6;
+  margin-top: 6px;
 }
 
 /* ── EXPERIENCE ─────────────────────────────────────────── */
@@ -429,7 +444,7 @@ h1.hero-name .hi { color: var(--accent); }
 }
 .tl-item:hover::before {
   background: var(--accent);
-  box-shadow: 0 0 14px rgba(148, 163, 184, 0.4);
+  box-shadow: 0 0 14px rgba(143, 188, 187, 0.4);
 }
 .tl-period {
   font-family: var(--mono);
@@ -453,7 +468,7 @@ h1.hero-name .hi { color: var(--accent); }
   display: flex; align-items: flex-start; gap: 14px;
   padding: 15px 18px;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 4px;
   background: var(--surface);
   margin-bottom: 10px;
   transition: border-color 0.2s, background 0.2s, transform 0.2s;
@@ -479,7 +494,7 @@ h1.hero-name .hi { color: var(--accent); }
   gap: 24px;
   padding: 28px 12px;
   border-bottom: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 4px;
   transition: background 0.2s, padding-left 0.2s;
   position: relative;
   overflow: hidden;
@@ -503,7 +518,7 @@ h1.hero-name .hi { color: var(--accent); }
   letter-spacing: 0.08em;
   padding: 3px 7px;
   background: var(--accent); color: var(--bg);
-  border-radius: 1px;
+  border-radius: 2px;
 }
 .pub-title {
   font-family: var(--serif);
@@ -515,7 +530,7 @@ h1.hero-name .hi { color: var(--accent); }
 .pub-venue {
   font-family: var(--serif);
   font-size: 13px; font-style: italic;
-  color: var(--accent); opacity: 0.75;
+  color: var(--accent); opacity: 0.85;
   margin-bottom: 14px;
 }
 .pub-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -526,9 +541,9 @@ h1.hero-name .hi { color: var(--accent); }
   font-family: var(--mono); font-size: 9px;
   letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--ink2); text-decoration: none;
-  border-radius: 1px; transition: all 0.2s;
+  border-radius: 2px; transition: all 0.2s;
 }
-.pub-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.pub-link:hover { border-color: var(--accent); color: var(--accent); background: var(--surface2); }
 
 /* ── EDUCATION + SKILLS ──────────────────────────────────── */
 .bottom-grid {
@@ -552,20 +567,35 @@ h1.hero-name .hi { color: var(--accent); }
   font-size: 14px; font-style: italic; color: var(--ink2);
 }
 
-.skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 10px;
+}
+.skill-category { display: flex; flex-direction: column; gap: 10px; }
+.skill-cat-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
 .skill-tag {
-  padding: 8px 16px;
+  padding: 8px 14px;
   border: 1px solid var(--border2);
-  border-radius: 2px;
+  border-radius: 4px;
   font-family: var(--mono);
   font-size: 11px;
   color: var(--ink2);
   transition: all 0.2s;
+  background: var(--surface);
 }
 .skill-tag:hover {
   border-color: var(--accent);
   color: var(--accent);
-  background: var(--accent-bg);
+  background: var(--surface2);
 }
 
 /* ── FOOTER ─────────────────────────────────────────────── */
@@ -596,7 +626,7 @@ footer {
   position: fixed; bottom: 36px; right: 36px;
   width: 46px; height: 46px;
   background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 2px;
+  border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   opacity: 0; transform: translateY(8px);
@@ -716,12 +746,34 @@ footer {
       <div>
         <div class="sub-label">Research Interests</div>
         <ul class="interest-list">
-          <li class="interest-item"><span class="i-num">01</span>Reinforcement Learning</li>
-          <li class="interest-item"><span class="i-num">02</span>Clinical Decision Support</li>
-          <li class="interest-item"><span class="i-num">03</span>Deep Learning</li>
-          <li class="interest-item"><span class="i-num">04</span>Large Language Models</li>
-          <li class="interest-item"><span class="i-num">05</span>Healthcare AI</li>
-          <li class="interest-item"><span class="i-num">06</span>Robotics &amp; State Estimation</li>
+          <li class="interest-item">
+            <span class="i-num">01</span>
+            <div class="i-content">
+              <strong>Clinical AI &amp; Decision Support</strong>
+              <span class="i-desc">Reinforcement Learning for Critical Care, Clinical Decision Support Systems, Off-Policy Evaluation[cite: 19].</span>
+            </div>
+          </li>
+          <li class="interest-item">
+            <span class="i-num">02</span>
+            <div class="i-content">
+              <strong>Machine Learning</strong>
+              <span class="i-desc">Deep Reinforcement Learning, Generative AI, LLMs, Self-Supervised Learning[cite: 20].</span>
+            </div>
+          </li>
+          <li class="interest-item">
+            <span class="i-num">03</span>
+            <div class="i-content">
+              <strong>Biomedical Data</strong>
+              <span class="i-desc">Physiological Time Series, Multi-Modal Clinical Data (EHR, Structured, Imaging), ICU Databases[cite: 21].</span>
+            </div>
+          </li>
+          <li class="interest-item">
+            <span class="i-num">04</span>
+            <div class="i-content">
+              <strong>Robotics</strong>
+              <span class="i-desc">State Estimation, Data Fusion, Localization[cite: 21].</span>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -918,15 +970,58 @@ footer {
       
       <div>
         <div class="sub-label">Core Competencies</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">PyTorch</span>
-          <span class="skill-tag">Reinforcement Learning</span>
-          <span class="skill-tag">Offline Policy Evaluation</span>
-          <span class="skill-tag">EHR Data</span>
-          <span class="skill-tag">Large Language Models</span>
-          <span class="skill-tag">State Estimation</span>
-          <span class="skill-tag">Data Fusion</span>
+        <div class="skills-container">
+          
+          <div class="skill-category">
+            <div class="skill-cat-title">Programming</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Python [cite: 23]</span>
+              <span class="skill-tag">MATLAB [cite: 23]</span>
+              <span class="skill-tag">SQL [cite: 23]</span>
+              <span class="skill-tag">Linux (Ubuntu) [cite: 23]</span>
+            </div>
+          </div>
+          
+          <div class="skill-category">
+            <div class="skill-cat-title">Clinical Data</div>
+            <div class="skill-tags">
+              <span class="skill-tag">MIMIC-IV [cite: 24]</span>
+              <span class="skill-tag">ViennaAIdb [cite: 24]</span>
+              <span class="skill-tag">ICU Time Series Preprocessing [cite: 24]</span>
+              <span class="skill-tag">Physiological Signal Analysis [cite: 24]</span>
+              <span class="skill-tag">EHR Feature Engineering [cite: 24]</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="skill-cat-title">Deep Learning &amp; ML</div>
+            <div class="skill-tags">
+              <span class="skill-tag">PyTorch [cite: 25]</span>
+              <span class="skill-tag">scikit-learn [cite: 25]</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="skill-cat-title">Robotics</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Sensor &amp; Data Fusion [cite: 26]</span>
+              <span class="skill-tag">Kalman Filtering [cite: 26]</span>
+              <span class="skill-tag">ROS [cite: 26]</span>
+              <span class="skill-tag">Arduino IDE [cite: 27]</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="skill-cat-title">Developer Tools &amp; Misc</div>
+            <div class="skill-tags">
+              <span class="skill-tag">Git [cite: 27]</span>
+              <span class="skill-tag">GCP [cite: 27]</span>
+              <span class="skill-tag">PostgreSQL [cite: 27]</span>
+              <span class="skill-tag">Academic Research [cite: 28]</span>
+              <span class="skill-tag">Scientific Writing [cite: 28]</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
